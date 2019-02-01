@@ -70,3 +70,20 @@ app = Flask(__name__)
 
 
 coreChainInst = coreChain() 
+
+#Mining the block 
+@app.route('/mine_block', methods = ["GET"])
+def mine_block():
+    prev_block = coreChain.get_prev_block()
+    prev_proof = prev_block['proof']
+    proof = coreChain.proof_of_work(prev_proof)
+    prev_hash = coreChain.hash(prev_block)
+    block = coreChain.create_block(proof,prev_hash)
+    response ={'message': 'congrats',
+               
+               'index' : block['index'],
+               'timestamp' : block['timestamp'],
+               'proof' : block['proof'],
+               'prev_hash' : block['prev_hash']
+            }
+    return jsonify(response) , 200
