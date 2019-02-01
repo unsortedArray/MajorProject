@@ -63,5 +63,10 @@ class coreChain:
                 return False
             prev_block = block
             block += 1
-                
-                
+                   
+
+# creating the web app 
+app = Flask(__name__)
+
+
+coreChainInst = coreChain() 
