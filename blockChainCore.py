@@ -20,7 +20,7 @@ class coreChain:
         self.create_block(proof=1, prev_hash ='0')
     
     def create_block (self,proof,prev_hash):
-        block = {'index':len(self.chain+1),
+        block = {'index':len(self.chain)+1,
                  'timestamp': str(datetime.datetime.now()),
                  'proof': proof,
                  'prev_hash': prev_hash
@@ -74,11 +74,11 @@ coreChainInst = coreChain()
 #Mining the block 
 @app.route('/mine_block', methods = ["GET"])
 def mine_block():
-    prev_block = coreChain.get_prev_block()
+    prev_block = coreChainInst.get_prev_block()
     prev_proof = prev_block['proof']
-    proof = coreChain.proof_of_work(prev_proof)
-    prev_hash = coreChain.hash(prev_block)
-    block = coreChain.create_block(proof,prev_hash)
+    proof = coreChainInst.proof_of_work(prev_proof)
+    prev_hash = coreChainInst.hash(prev_block)
+    block = coreChainInst.create_block(proof,prev_hash)
     response ={'message': 'congrats',
                
                'index' : block['index'],
@@ -87,3 +87,16 @@ def mine_block():
                'prev_hash' : block['prev_hash']
             }
     return jsonify(response) , 200
+
+
+@app.route('/get_chain', methods=["GET"])
+def get_chain():
+    response ={
+            'chain': coreChainInst.chain,
+            'length' : len(coreChainInst.chain)
+            }
+    return jsonify(response), 200
+
+
+
+app.run(host = '0.0.0.0', port = 5000)
