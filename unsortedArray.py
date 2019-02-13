@@ -48,7 +48,7 @@ class coreChain:
         while(check_proof  is False):
             hash_operation =  hashlib.sha256(str(new_proof**2 - prev_proof**2 ).encode()).hexdigest()
             
-            if hash_operation[:8] =='00000000':
+            if hash_operation[:6] =='000000':
                 check_proof = True
             else:
                 new_proof += 1
@@ -69,10 +69,11 @@ class coreChain:
             prev_proof = prev_block['proof']
             proof = block['proof']
             hash_operation = hashlib.sha256(str(proof**2 - prev_proof**2).encode()).hexdigest()
-            if hash_operation[:8] !='00000000':
+            if hash_operation[:6] !='000000':
                 return False
             prev_block = block
-            block += 1
+            block_index += 1
+        return True
     
 
     def add_transactions(self, sender, reciever, ammount):
@@ -94,15 +95,20 @@ class coreChain:
 
     def replace_chain(self):
         network = self.nodes
+       
         longest_chain = None
         max_length = len(self.chain)
-
+        print('max_length'+ str(max_length))
         for node in network:
             response = requests.get(f'http://{node}/get_chain')
+            
             if response.status_code == 200:
                 length =response.json()['length']
                 chain = response.json()['chain']
+                print(length)
+                print(chain)
                 if length > max_length and self.is_chain_valid(chain):
+                    print("here")
                     max_length = length
                     longest_chain = chain
         if longest_chain:
