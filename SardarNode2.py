@@ -48,7 +48,7 @@ class coreChain:
         while(check_proof  is False):
             hash_operation =  hashlib.sha256(str(new_proof**2 - prev_proof**2 ).encode()).hexdigest()
             
-            if hash_operation[:10] =='0000000000':
+            if hash_operation[:8] =='00000000':
                 check_proof = True
             else:
                 new_proof += 1
@@ -69,13 +69,13 @@ class coreChain:
             prev_proof = prev_block['proof']
             proof = block['proof']
             hash_operation = hashlib.sha256(str(proof**2 - prev_proof**2).encode()).hexdigest()
-            if hash_operation[:10] !='0000000000':
+            if hash_operation[:8] !='00000000':
                 return False
             prev_block = block
             block += 1
     
 
-    def transactions(self, sender, reciever, ammount):
+    def add_transactions(self, sender, reciever, ammount):
         self.transactions.append({'sender':sender,
             'reciever':reciever,
             'ammount':ammount
@@ -126,7 +126,7 @@ def mine_block():
     prev_proof = prev_block['proof']
     proof = coreChainInst.proof_of_work(prev_proof)
     prev_hash = coreChainInst.hash(prev_block)
-    coreChainInst.transactions( sender = node_address , reciever ="UnsortedArray" , ammount = 1)
+    coreChainInst.add_transactions( sender = node_address , reciever ="UnsortedArray" , ammount = 1)
 
     block = coreChainInst.create_block(proof,prev_hash)
     response ={'message': 'congrats',
@@ -180,6 +180,7 @@ def add_transaction():
 @app.route('/conenct_node', methods = ['POST'])
 def connect_node():
     json = request.get_json()
+    print(json)
     nodes = json.get('nodes')
     if nodes is None:
         return " Empty Nodes" , 400
