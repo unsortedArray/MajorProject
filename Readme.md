@@ -6,7 +6,7 @@
 
 #### Now for all the Nodes make a post request on the postman "/conenct_nodes" with body->raw-> json form with the entries in the network
 
-#### All the routes have been specified below for the purpose 
+#### All the routes have been specified below with their purpose 
 
 			* mine_block ** to mine the block
 
