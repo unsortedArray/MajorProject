@@ -205,7 +205,7 @@ def replace_chain():
         response = {'message': 'All good. The Blockchain is largest .',
         'actual_chain': coreChainInst.chain}
     else:
-        response = {'message': 'Chain had to be chained',
+        response = {'message': 'Chain had to be changed',
         'new_chain' : coreChainInst.chain}
 
     return jsonify(response), 200
