@@ -76,10 +76,10 @@ class coreChain:
         return True
     
 
-    def add_transactions(self, sender, reciever, ammount):
+    def add_transactions(self, sender, receiver, amount):
         self.transactions.append({'sender':sender,
-            'reciever':reciever,
-            'ammount':ammount
+            'receiver':receiver,
+            'amount':amount
 
             })
         prev_block = self.get_prev_block()
@@ -98,21 +98,21 @@ class coreChain:
        
         longest_chain = None
         max_length = len(self.chain)
-        print('max_length'+ str(max_length))
         for node in network:
             response = requests.get(f'http://{node}/get_chain')
             
             if response.status_code == 200:
                 length =response.json()['length']
                 chain = response.json()['chain']
-                print(length)
-                print(chain)
                 if length > max_length and self.is_chain_valid(chain):
-                    print("here")
                     max_length = length
                     longest_chain = chain
         if longest_chain:
             self.chain = longest_chain
+            # response = requests.get(f'http://{node}/get_chain')
+            # for node in network:
+            #     response.json['chain'] = longest_chain
+            #     response.json['length'] = max_length
             return True
         return False
 # creating the web app 
@@ -121,7 +121,7 @@ app = Flask(__name__)
 ## creating an address for the node on the port 5000
 
 node_address = str(uuid4()).replace('-','')
-print(node_address)
+#print(node_address)
 
 coreChainInst = coreChain() 
 
@@ -132,7 +132,7 @@ def mine_block():
     prev_proof = prev_block['proof']
     proof = coreChainInst.proof_of_work(prev_proof)
     prev_hash = coreChainInst.hash(prev_block)
-    coreChainInst.add_transactions( sender = node_address , reciever ="UnsortedArray" , ammount = 1)
+    coreChainInst.add_transactions( node_address , "UnsortedArray" , 1)
 
     block = coreChainInst.create_block(proof,prev_hash)
     response ={'message': 'congrats',
@@ -173,11 +173,11 @@ def is_valid():
 def add_transaction():
     json = request.get_json()
     transactions_keys= ['sender', 'receiver', 'amount']
-    
+    print(transactions_keys,json)
     if not all (key in json for key in transactions_keys):
         return ' something is missing', 400
 
-    index = coreChainInst.transactions(json['sender'], json['reciever'], json['ammount'])
+    index = coreChainInst.add_transactions(json['sender'], json['receiver'], json['amount'])
 
     response ={'message': f'this transaction will be added to block {index}'}
 
