@@ -6,15 +6,15 @@
 
 #### Now for all the Nodes make a post request on the postman "/conenct_nodes" with body->raw-> json form with the entries in the network
 
-#### All the routes have been specified below for the purpose 
+#### All the routes have been specified below with their purpose 
 
-			##### mine_block ** to mine the block
+			* mine_block ** to mine the block
 
-			##### get_chain  ** shows the status of the chain on the current node
+			* get_chain  ** shows the status of the chain on the current node
 
-			##### replace_chain ** synchronises the chain with the maximum chain
+			* replace_chain ** synchronises the chain with the maximum chain
 
-			##### add_transaction ** POST request with json details as in transaction file  
+			* add_transaction ** POST request with json details as in transaction file  
 
 
-			##### is_valid used ** an implicit call to check the internal configuration of the chain
+			* is_valid used ** an implicit call to check the internal configuration of the chain
