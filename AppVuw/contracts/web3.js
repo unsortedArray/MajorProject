@@ -1,10 +1,4 @@
-/* eslint-disable */
-var Vue = require('vue')
-var Web3 = require('web3')
-
- 
-// explicit installation required in module environments
-// Vue.use(VueWeb3, { web3: new Web3(web3.currentProvider) })
+import Web3 from 'web3';
 
 if (window.ethereum) {
   window.web3 = new Web3(ethereum);
