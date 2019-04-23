@@ -1,88 +1,89 @@
 /* eslint-disable */
 import web3 from './web3';
 
-const address = '0x309450cce8b7bf3d22ede77e5fd5d2edc7de3c2b'; // Your deployed contract's address goes here
+const address = '0xec5b123fa1b372964716e7cd6e8fc6334f1eb3ba'; // Your deployed contract's address goes here
 // Example:
 // const address = '0x09r80cnasjfaks93m9v2';
 
-const abi = [
-	{
-		"constant": false,
-		"inputs": [
+const abi = 
+	[
 			{
-				"name": "title",
-				"type": "string"
+				"constant": false,
+				"inputs": [
+					{
+						"name": "title",
+						"type": "string"
+					},
+					{
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"name": "durationInDays",
+						"type": "uint256"
+					},
+					{
+						"name": "amountToRaise",
+						"type": "uint256"
+					}
+				],
+				"name": "startProject",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
-				"name": "description",
-				"type": "string"
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"name": "contractAddress",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"name": "projectStarter",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"name": "projectTitle",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"name": "projectDesc",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"name": "deadline",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"name": "goalAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "ProjectStarted",
+				"type": "event"
 			},
 			{
-				"name": "durationInDays",
-				"type": "uint256"
-			},
-			{
-				"name": "amountToRaise",
-				"type": "uint256"
+				"constant": true,
+				"inputs": [],
+				"name": "returnAllProjects",
+				"outputs": [
+					{
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			}
-		],
-		"name": "startProject",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "contractAddress",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "projectStarter",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "projectTitle",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"name": "projectDesc",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"name": "deadline",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "goalAmount",
-				"type": "uint256"
-			}
-		],
-		"name": "ProjectStarted",
-		"type": "event"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "returnAllProjects",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	}
 ]; // Your ABI goes here (Crowdfunding contract)
 // Example:
 // const abi = [
